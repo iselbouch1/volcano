@@ -23,7 +23,7 @@ const filterOptions = [
   { id: 'highestStratovolcano' as FilterType, label: 'Top 10 - Strato-volcans les plus hauts', icon: <Mountain className="w-4 h-4 mr-2" /> },
   { id: 'recentlyActiveEurope' as FilterType, label: 'Top 10 - Récemment actifs en Europe', icon: <MapPin className="w-4 h-4 mr-2" /> },
   { id: 'recentlyActiveUSA' as FilterType, label: 'Top 10 - Récemment actifs aux USA', icon: <MapPin className="w-4 h-4 mr-2" /> },
-  { id: 'recentlyActiveSouthAmerica' as FilterType, label: 'Top 10 - Récemment actifs en Amérique du Sud', icon: <MapPin className="w-4 h-4 mr-2" />, disabled: true },
+  { id: 'recentlyActiveSouthAmerica' as FilterType, label: 'Top 10 - Récemment actifs en Amérique du Sud', icon: <MapPin className="w-4 h-4 mr-2" />, disabled: false },
 ];
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange, isLoading }) => {

@@ -12,7 +12,7 @@ import VolcanoTable from '@/components/VolcanoTable';
 import DashboardStats from '@/components/DashboardStats';
 import {VolcaniaAPI} from "@/utils/volcano-api.ts";
 
-const api = new VolcaniaAPI()
+const api = new VolcaniaAPI("http://localhost:8080")
 
 const Index = () => {
   const [volcanoes, setVolcanoes] = useState<Volcano[]>([]);

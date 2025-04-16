@@ -1,7 +1,7 @@
 import { Volcano, FilterType } from "@/types/volcano";
 import {VolcaniaAPI} from "@/utils/volcano-api.ts";
 
-const api = new VolcaniaAPI()
+const api = new VolcaniaAPI("http://localhost:8080")
 
 export async function filterVolcanoes(volcanoes: Volcano[], filter: FilterType, selectedContinent?: string, selectedCountry?: string): Volcano[] {
   switch (filter) {
@@ -27,18 +27,16 @@ export async function filterVolcanoes(volcanoes: Volcano[], filter: FilterType, 
       return await api.getTenMostRecentAmericanActivities()
 
     case 'recentlyActiveSouthAmerica':
-      return volcanoes
-        
-    case 'byContinent':
-      return volcanoes
-      
-    case 'byCountry':
-      if (selectedCountry) {
-        return volcanoes.filter(v => 
-          v.country.toLowerCase() === selectedCountry.toLowerCase()
-        );
-      }
-      return volcanoes;
+      return volcanoes.length !== 0 ? volcanoes
+          .filter(v => v.region.toLowerCase().includes('amérique du sud') ||
+              v.region.toLowerCase().includes('amerique du sud') ||
+              v.region.toLowerCase().includes('south america'))
+          .filter(v => {
+            const year = parseInt(v.lastKnownEruption);
+            return !isNaN(year);
+          })
+          .sort((a, b) => parseInt(b.lastKnownEruption) - parseInt(a.lastKnownEruption))
+          .slice(0, 10) : [];
       
     default:
       return volcanoes;
