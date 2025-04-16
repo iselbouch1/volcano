@@ -23,7 +23,9 @@ const filterOptions = [
   { id: 'highestStratovolcano' as FilterType, label: 'Top 10 - Strato-volcans les plus hauts', icon: <Mountain className="w-4 h-4 mr-2" /> },
   { id: 'recentlyActiveEurope' as FilterType, label: 'Top 10 - Récemment actifs en Europe', icon: <MapPin className="w-4 h-4 mr-2" /> },
   { id: 'recentlyActiveUSA' as FilterType, label: 'Top 10 - Récemment actifs aux USA', icon: <MapPin className="w-4 h-4 mr-2" /> },
-  { id: 'recentlyActiveSouthAmerica' as FilterType, label: 'Top 10 - Récemment actifs en Amérique du Sud', icon: <MapPin className="w-4 h-4 mr-2" />, disabled: false },
+  { id: 'recentlyActiveSouthAmerica' as FilterType, label: 'Top 10 - Récemment actifs en Amérique du Sud', icon: <MapPin className="w-4 h-4 mr-2" /> },
+  { id: 'byContinent' as FilterType, label: 'Par continent', icon: <Globe className="w-4 h-4 mr-2" /> },
+  { id: 'byCountry' as FilterType, label: 'Par pays', icon: <Globe className="w-4 h-4 mr-2" /> },
 ];
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange, isLoading }) => {
@@ -31,6 +33,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
   const [selectedContinent, setSelectedContinent] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   
+  const continents = getUniqueValues(volcanoes, 'region');
+  const countries = getUniqueValues(volcanoes, 'country');
+
   const handleFilterChange = (value: FilterType) => {
     setSelectedFilter(value);
     
@@ -81,7 +86,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
                 >
                   {filterOptions.map((option) => (
                     <div key={option.id} className="flex items-center space-x-2">
-                      <RadioGroupItem value={option.id} id={option.id} disabled={option.disabled ?? false} />
+                      <RadioGroupItem value={option.id} id={option.id} />
                       <Label htmlFor={option.id} className="flex items-center cursor-pointer">
                         {option.icon}
                         {option.label}
@@ -89,6 +94,54 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
                     </div>
                   ))}
                 </RadioGroup>
+
+                {selectedFilter === 'byContinent' && (
+                  <div className="mt-4">
+                    <Label htmlFor="continent-select" className="mb-2 block">
+                      Sélectionner un continent
+                    </Label>
+                    <Select
+                      value={selectedContinent}
+                      onValueChange={handleContinentChange}
+                      disabled={continents.length === 0}
+                    >
+                      <SelectTrigger id="continent-select">
+                        <SelectValue placeholder="Choisir un continent" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {continents.map((continent) => (
+                          <SelectItem key={continent} value={continent}>
+                            {continent}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {selectedFilter === 'byCountry' && (
+                  <div className="mt-4">
+                    <Label htmlFor="country-select" className="mb-2 block">
+                      Sélectionner un pays
+                    </Label>
+                    <Select
+                      value={selectedCountry}
+                      onValueChange={handleCountryChange}
+                      disabled={countries.length === 0}
+                    >
+                      <SelectTrigger id="country-select">
+                        <SelectValue placeholder="Choisir un pays" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country} value={country}>
+                            {country}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
               </div>
             </ScrollArea>
           </SidebarGroupContent>

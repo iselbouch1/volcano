@@ -37,7 +37,23 @@ export async function filterVolcanoes(volcanoes: Volcano[], filter: FilterType, 
           })
           .sort((a, b) => parseInt(b.lastKnownEruption) - parseInt(a.lastKnownEruption))
           .slice(0, 10) : [];
-      
+
+    case 'byContinent':
+      if (selectedContinent) {
+        return volcanoes.filter(v =>
+            v.region.toLowerCase() === selectedContinent.toLowerCase()
+        );
+      }
+      return volcanoes;
+
+    case 'byCountry':
+      if (selectedCountry) {
+        return volcanoes.filter(v =>
+            v.country.toLowerCase() === selectedCountry.toLowerCase()
+        );
+      }
+      return volcanoes;
+
     default:
       return volcanoes;
   }

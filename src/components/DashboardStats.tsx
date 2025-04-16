@@ -19,6 +19,7 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({ volcanoes }) => {
     }
     
     const countries = new Set(volcanoes.map(v => v.country).filter(Boolean));
+    const continents = new Set(volcanoes.map(v => v.region).filter(Boolean));
     
     // Le volcan le plus haut
     const highestVolcano = [...volcanoes]
@@ -39,7 +40,7 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({ volcanoes }) => {
     
     return {
       totalCount: volcanoes.length,
-      continentsCount: 0,
+      continentsCount: continents.size,
       countriesCount: countries.size,
       highestVolcano,
       recentActivity,
