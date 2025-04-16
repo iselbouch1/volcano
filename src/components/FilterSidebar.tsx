@@ -33,9 +33,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
   const [selectedContinent, setSelectedContinent] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   
-  const continents = getUniqueValues(volcanoes, 'continent');
+  const continents = getUniqueValues(volcanoes, 'region');
   const countries = getUniqueValues(volcanoes, 'country');
-  
+
   const handleFilterChange = (value: FilterType) => {
     setSelectedFilter(value);
     
@@ -94,14 +94,14 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
                     </div>
                   ))}
                 </RadioGroup>
-                
+
                 {selectedFilter === 'byContinent' && (
                   <div className="mt-4">
                     <Label htmlFor="continent-select" className="mb-2 block">
                       Sélectionner un continent
                     </Label>
-                    <Select 
-                      value={selectedContinent} 
+                    <Select
+                      value={selectedContinent}
                       onValueChange={handleContinentChange}
                       disabled={continents.length === 0}
                     >
@@ -118,14 +118,14 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ volcanoes, onFilterChange
                     </Select>
                   </div>
                 )}
-                
+
                 {selectedFilter === 'byCountry' && (
                   <div className="mt-4">
                     <Label htmlFor="country-select" className="mb-2 block">
                       Sélectionner un pays
                     </Label>
-                    <Select 
-                      value={selectedCountry} 
+                    <Select
+                      value={selectedCountry}
                       onValueChange={handleCountryChange}
                       disabled={countries.length === 0}
                     >

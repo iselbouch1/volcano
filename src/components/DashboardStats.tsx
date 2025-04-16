@@ -18,23 +18,23 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({ volcanoes }) => {
       };
     }
     
-    const continents = new Set(volcanoes.map(v => v.continent).filter(Boolean));
     const countries = new Set(volcanoes.map(v => v.country).filter(Boolean));
+    const continents = new Set(volcanoes.map(v => v.region).filter(Boolean));
     
     // Le volcan le plus haut
     const highestVolcano = [...volcanoes]
-      .sort((a, b) => b.altitude - a.altitude)[0];
+      .sort((a, b) => b.elevation - a.elevation)[0];
     
     // Le volcan avec l'activité la plus récente (si les dates sont des années)
     const volcanoesWithValidDates = volcanoes
       .filter(v => {
-        const year = parseInt(v.lastActivity);
+        const year = parseInt(v.lastKnownEruption);
         return !isNaN(year);
       });
     
     const recentActivity = volcanoesWithValidDates.length > 0
       ? [...volcanoesWithValidDates].sort((a, b) => 
-          parseInt(b.lastActivity) - parseInt(a.lastActivity)
+          parseInt(b.lastKnownEruption) - parseInt(a.lastKnownEruption)
         )[0]
       : null;
     
@@ -68,7 +68,7 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({ volcanoes }) => {
         <h3 className="text-sm font-medium text-muted-foreground">Volcan le plus haut</h3>
         <p className="text-xl font-bold truncate">{stats.highestVolcano?.name || "-"}</p>
         {stats.highestVolcano && (
-          <p className="text-sm text-muted-foreground">{stats.highestVolcano.altitude} m</p>
+          <p className="text-sm text-muted-foreground">{stats.highestVolcano.elevation} m</p>
         )}
       </div>
     </div>

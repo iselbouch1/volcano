@@ -34,14 +34,14 @@ const VolcanoTable: React.FC<VolcanoTableProps> = ({ volcanoes, onSelectVolcano 
                 >
                   <TableCell className="font-medium">{volcano.name}</TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {volcano.type || "-"}
+                    {volcano.primaryVolcanoType || "-"}
                   </TableCell>
-                  <TableCell>{volcano.altitude} m</TableCell>
+                  <TableCell>{volcano.elevation} m</TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {volcano.lastActivity || "-"}
+                    {volcano.lastKnownEruption || "-"}
                   </TableCell>
                   <TableCell>{volcano.country || "-"}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{volcano.continent || "-"}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{volcano.region || "-"}</TableCell>
                 </TableRow>
               ))
             ) : (

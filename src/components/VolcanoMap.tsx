@@ -52,8 +52,8 @@ const VolcanoMap: React.FC<VolcanoMapProps> = ({ volcanoes, isLoading }) => {
         
         {volcanoes.map((volcano) => (
           volcano.latitude && volcano.longitude && (
-            <Marker 
-              key={volcano.id} 
+            <Marker
+              key={volcano.id}
               position={[volcano.latitude, volcano.longitude]}
               eventHandlers={{
                 click: () => setSelectedVolcano(volcano)
@@ -62,8 +62,8 @@ const VolcanoMap: React.FC<VolcanoMapProps> = ({ volcanoes, isLoading }) => {
               <Popup>
                 <div className="p-2">
                   <h3 className="font-bold">{volcano.name}</h3>
-                  <p>Type: {volcano.type || 'Type inconnu'}</p>
-                  <p>Altitude: {volcano.altitude} m</p>
+                  <p>Type: {volcano.primaryVolcanoType || 'Type inconnu'}</p>
+                  <p>Altitude: {volcano.elevation} m</p>
                   <p>Localisation: {volcano.country}</p>
                 </div>
               </Popup>
@@ -86,14 +86,14 @@ const VolcanoMap: React.FC<VolcanoMapProps> = ({ volcanoes, isLoading }) => {
                 </button>
               </div>
               <CardDescription>
-                {selectedVolcano.type || 'Type inconnu'}
+                {selectedVolcano.primaryVolcanoType || 'Type inconnu'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="font-medium">Altitude:</span>
-                  <span>{selectedVolcano.altitude} m</span>
+                  <span>{selectedVolcano.elevation} m</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Pays:</span>
@@ -107,7 +107,7 @@ const VolcanoMap: React.FC<VolcanoMapProps> = ({ volcanoes, isLoading }) => {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Dernière activité:</span>
-                  <span>{selectedVolcano.lastActivity || 'Inconnue'}</span>
+                  <span>{selectedVolcano.lastKnownEruption || 'Inconnue'}</span>
                 </div>
               </div>
             </CardContent>

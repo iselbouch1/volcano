@@ -8,9 +8,11 @@ import { filterVolcanoes } from '@/utils/volcano-utils';
 
 import FilterSidebar from '@/components/FilterSidebar';
 import VolcanoMap from '@/components/VolcanoMap';
-import FileUploader from '@/components/FileUploader';
 import VolcanoTable from '@/components/VolcanoTable';
 import DashboardStats from '@/components/DashboardStats';
+import {VolcaniaAPI} from "@/utils/volcano-api.ts";
+
+const api = new VolcaniaAPI("http://localhost:8080")
 
 const Index = () => {
   const [volcanoes, setVolcanoes] = useState<Volcano[]>([]);
@@ -18,6 +20,10 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('map');
   const [selectedVolcano, setSelectedVolcano] = useState<Volcano | null>(null);
+
+  if (volcanoes.length === 0) {
+    api.getVolcanoes().then((volcanoes) => {setVolcanoes(volcanoes); handleDataLoaded(volcanoes);});
+  }
   
   const handleDataLoaded = (data: Volcano[]) => {
     setVolcanoes(data);
@@ -28,8 +34,8 @@ const Index = () => {
     setIsLoading(true);
     
     // Petit délai pour permettre une animation et éviter de bloquer l'UI
-    setTimeout(() => {
-      const filtered = filterVolcanoes(volcanoes, filter, continent, country);
+    setTimeout(async () => {
+      const filtered = await filterVolcanoes(volcanoes, filter, continent, country);
       setFilteredVolcanoes(filtered);
       setIsLoading(false);
     }, 300);
@@ -82,7 +88,7 @@ const Index = () => {
             <div className="flex-1 p-4">
               {volcanoes.length === 0 ? (
                 <div className="max-w-md mx-auto my-8">
-                  <FileUploader onDataLoaded={handleDataLoaded} />
+                  Loading...
                 </div>
               ) : (
                 <div className="h-full">
@@ -121,13 +127,6 @@ const Index = () => {
                           explorer les volcans selon leur altitude, leur activité récente, 
                           leur type et leur localisation.
                         </p>
-                        <h3 className="text-lg font-medium mb-2">Comment utiliser cette application</h3>
-                        <ol className="list-decimal list-inside space-y-2 mb-4">
-                          <li>Importez vos données depuis un fichier Excel ou CSV</li>
-                          <li>Utilisez le panneau latéral pour filtrer les volcans</li>
-                          <li>Explorez la carte interactive ou consultez la liste des volcans</li>
-                          <li>Cliquez sur un volcan pour afficher ses détails</li>
-                        </ol>
                         <p className="text-sm text-muted-foreground">
                           Note: Pour utiliser la carte interactive, vous devez fournir 
                           une clé API Mapbox (disponible gratuitement sur mapbox.com).
