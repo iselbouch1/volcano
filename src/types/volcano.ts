@@ -1,14 +1,19 @@
 
 export interface Volcano {
-  id: string;
+  id: number;
+  volcanoNumber: number;
   name: string;
-  altitude: number;
   country: string;
-  continent: string;
+  primaryVolcanoType: string;
+  activityEvidence: string;
+  lastKnownEruption: number | null;
+  region: string;
+  subRegion: string;
   latitude: number;
   longitude: number;
-  type: string;
-  lastActivity: string;
+  elevation: number;
+  dominantRockType: string;
+  tectonicSetting: string;
 }
 
 export type FilterType = 
